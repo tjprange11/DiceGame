@@ -5,36 +5,83 @@
 	alert("Alrighty! First to five wins the game!");
 	
 	while(playerScore !== 5 && cpuScore !== 5){
-		if(faceOff(prompt("Guess a number in order to win the faceoff: (1 - 3)"))){
+		if(checkFaceOff(askForFaceOff())){
 			
-			if(checkIfGoalScored(prompt("Guess a number in order to score a goal: (1 - 12)"))){
-				alert("You scored!!!")
+			alert("You just won the faceoff! Now you have a chance to score!");
+			
+			if(checkIfGoalScored(askForGoalScored())){
+				
+				alert("You scored!!!");
 				playerScore++;
+				
+			}
+			else{
+				
+				alert("The goalie saved it and now there is a faceoff!");
 			}
 		}
 		
 		else{
 			
-			if(checkBodyCheck(prompt("Guess a number in order to bodycheck the other player: (1 - 6)"))){
+			alert("You lost the faceoff! Now you have a chance to check the player with the puck before they can shoot it!");
 			
-				if(checkIfGoalScored(prompt("Guess a number in order to score a goal: (1 - 12)"))){
-					alert("You scored!!!")
+			if(checkBodyCheck(askForBodyCheck())){
+				
+				alert("You bodychecked the player with the puck! Now you have a chance to score!");
+			
+				if(checkIfGoalScored(askForGoalScored())){
+					
+					alert("You scored!!!");
 					playerScore++;
+					
+				}
+				else{
+					
+					
+					alert("The goalie saved it and now there is a faceoff!");
 				}
 			}
 			
 			else{
+				
+				alert("You missed the bodycheck! Now Mike Smith has to make a save!");
 			
-				if(!checkIfSaveMade(prompt("Guess a number in order to make the save: (1 - 4)"))){
-					alert("The CPU scored!!!")
+				if(!checkIfSaveMade(askForSaveMade())){
+					
+					alert("The CPU scored!!!");
 					cpuScore++;
+					
+				}
+				
+				else{
+					
+					alert("BIG SAVE BY MIKEY SMITH!!!");
+					
+					if(checkIfRebound()){
+						
+						alert("OH NO! Mike Smith let up a rebound!")
+						
+						if(!checkIfSaveMade(askForSaveMade())){
+							
+							alert("The CPU scored!!!");
+							cpuScore++;
+							
+						}
+						
+						else{
+							
+							alert("ANOTHER BIG SAVE BY MIKEY SMITH!!!");
+					
+						}
+					}
+					
 				}
 			}
 		}
 	}
 	
 function checkReboundGoal(guessRebound){
-	let num = rollDie(8)
+	let num = rollDie(5)
 	if(Math.abs(guessRebound - num) === 0){
 		return true;
 	}
@@ -44,19 +91,28 @@ function checkReboundGoal(guessRebound){
 }
 	
 function checkIfGoalScored(guessGoal){
-	let num = rollDie(12);
+	let num = rollDie(7);
 	if(Math.abs(guessGoal - num) === 0){
 		return true;
 	}
 	else if(Math.abs(guessGoal - num) <= 2){
-		return checkReboundGoal(prompt("Guess a number in order to score a rebound goal: (1 - 8)"));
+		alert("You almost scored! There a huge rebound and you still have a chance to score!");
+		return checkReboundGoal(askForRebound());
+	}
+	return false;
+}
+
+function checkIfRebound(){
+	let num = rollDie(20);
+	if(num === 1){
+		return true;
 	}
 	return false;
 }
 
 function checkIfSaveMade(guessSave){
 	let num = rollDie(4);
-	if(Math.abs(guessSave - num) === 0){
+	if(Math.abs(guessSave - num) !== 0){
 		return true;
 	}
 	else{
@@ -72,9 +128,61 @@ function checkBodyCheck(guessCheck){
 	return false;
 }
 
-function faceOff(guessFaceOff){
+function checkFaceOff(guessFaceOff){
 	let num = rollDie(3);
 	if(Math.abs(guessFaceOff - num) === 0){
+		return true;
+	}
+	return false;
+}
+
+function askForFaceOff(){
+	let guess = prompt("Guess a number in order to win the faceoff: (1 - 3)");
+	if(!validateNumber(1 , 3 , guess)){
+		alert("Invalid Number!");
+		askForFaceOff();
+	}
+	return guess;
+}
+
+function askForBodyCheck(){
+	let guess = prompt("Guess a number in order to bodycheck the other player: (1 - 6)");
+	if(!validateNumber(1 , 6 , guess)){
+		alert("Invalid Number!");
+		askForBodyCheck();
+	}
+	return guess;
+}
+
+function askForSaveMade(){
+	let guess = prompt("Guess a number in order to make the save: (1 - 4)");
+	if(!validateNumber(1 , 4 , guess)){
+		alert("Invalid Number!");
+		askForSaveMade();
+	}
+	return guess;
+}
+
+function askForRebound(){
+	let guess = prompt("Guess a number in order to score a rebound goal: (1 - 5)");
+	if(!validateNumber(1 , 5 , guess)){
+		alert("Invalid Number!");
+		askForRebound();
+	}
+	return guess;
+}
+
+function askForGoalScored(){
+	let guess = prompt("Guess a number in order to score a goal: (1 - 7)");
+	if(!validateNumber(1 , 7 , guess)){
+		alert("Invalid Number!");
+		askForGoalScored();
+	}
+	return guess;
+}
+
+function validateNumber(low, high, num){
+	if(num >= low && num <= high){
 		return true;
 	}
 	return false;
