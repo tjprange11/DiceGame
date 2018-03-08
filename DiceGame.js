@@ -13,6 +13,7 @@
 				
 				alert("You scored!!!");
 				playerScore++;
+				updateScore(playerScore, cpuScore);
 				
 			}
 			else{
@@ -33,6 +34,7 @@
 					
 					alert("You scored!!!");
 					playerScore++;
+					updateScore(playerScore, cpuScore);
 					
 				}
 				else{
@@ -50,6 +52,7 @@
 					
 					alert("The CPU scored!!!");
 					cpuScore++;
+					updateScore(playerScore, cpuScore);
 					
 				}
 				
@@ -65,6 +68,7 @@
 							
 							alert("The CPU scored!!!");
 							cpuScore++;
+							updateScore(playerScore, cpuScore);
 							
 						}
 						
@@ -78,6 +82,12 @@
 				}
 			}
 		}
+	}
+	if(playerScore === 5){
+		alert("YOU WON!");
+	}
+	else{
+		alert("You lost!");
 	}
 	
 function checkReboundGoal(guessRebound){
@@ -111,7 +121,7 @@ function checkIfRebound(){
 }
 
 function checkIfSaveMade(guessSave){
-	let num = rollDie(4);
+	let num = rollDie(10);
 	if(Math.abs(guessSave - num) !== 0){
 		return true;
 	}
@@ -146,8 +156,8 @@ function askForFaceOff(){
 }
 
 function askForBodyCheck(){
-	let guess = prompt("Guess a number in order to bodycheck the other player: (1 - 6)");
-	if(!validateNumber(1 , 6 , guess)){
+	let guess = prompt("Guess a number in order to bodycheck the other player: (1 - 4)");
+	if(!validateNumber(1 , 4 , guess)){
 		alert("Invalid Number!");
 		askForBodyCheck();
 	}
@@ -155,8 +165,8 @@ function askForBodyCheck(){
 }
 
 function askForSaveMade(){
-	let guess = prompt("Guess a number in order to make the save: (1 - 4)");
-	if(!validateNumber(1 , 4 , guess)){
+	let guess = prompt("Guess a number in order to make the save: (1 - 10)");
+	if(!validateNumber(1 , 10 , guess)){
 		alert("Invalid Number!");
 		askForSaveMade();
 	}
@@ -186,6 +196,10 @@ function validateNumber(low, high, num){
 		return true;
 	}
 	return false;
+}
+
+function updateScore(playerScore , cpuScore){
+	alert("Your Score: " + playerScore + " CPU Score: " + cpuScore );
 }
 
 function rollDie(numOfSides){
